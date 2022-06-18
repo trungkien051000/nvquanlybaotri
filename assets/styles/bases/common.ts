@@ -51,6 +51,10 @@ const fontSize = {
         fontSize: themes.FONT.SIZE_24,
         lineHeight: themes.FONT.SIZE_24 + 4,
     },
+    font_size_27: {
+        fontSize: themes.FONT.SIZE_27,
+        lineHeight: themes.FONT.SIZE_27 + 4,
+    },
     font_size_30: {
         fontSize: themes.FONT.SIZE_30,
         lineHeight: themes.FONT.SIZE_30 + 4,
@@ -91,6 +95,9 @@ const common = StyleSheet.create({
     },
     color_green: {
         color: themes.COLOR.GREEN,
+    },
+    color_orange: {
+        color: themes.COLOR.ORANGE,
     },
     color_transparent: {
         color: themes.COLOR.TRANSPARENT,
@@ -149,6 +156,9 @@ const common = StyleSheet.create({
     },
     border_none: {
         borderWidth: 0,
+    },
+    background_none: {
+        backgroundColor: 'transparent',
     },
     background_white: {
         backgroundColor: themes.COLOR.WHITE,

@@ -1,7 +1,8 @@
 import Schedule from './Schedule';
+import DetailSchedule from './DetailSchedule';
 import Login from './Login';
-import Remind from './Remind';
 import Book from './Book';
 import Setting from './Setting';
+import SignUp from './SignUp';
 
-export { Login, Schedule, Remind, Book, Setting };
+export { Login, Schedule, DetailSchedule, Book, Setting, SignUp };
