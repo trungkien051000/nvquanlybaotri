@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { StyleSheet } from 'react-native';
 
-import { Login, Schedule, Remind, Book, Setting } from '@screens/index';
+import { Login, Schedule, Book, Setting, SignUp, DetailSchedule } from '@screens/index';
 
 import { routes, themes } from '@utils/constants';
 import { useTrans } from '@utils/hooks';
@@ -20,12 +20,10 @@ const RouteApp: IRouteAppComponent<IRouteAppComponentProps> = ({ startScreen }) 
                     headerShown: true,
                     headerTitleAlign: 'center',
                     headerTintColor: themes.COLOR.BLUE,
-                }}
-            >
+                }}>
                 <Drawer.Screen name={trans.schedule.title} component={Schedule} />
-                <Drawer.Screen name={trans.remind.title} component={Remind} />
-                <Drawer.Screen name={trans.book.title} component={Book} />
                 <Drawer.Screen name={trans.setting.title} component={Setting} />
+                <Drawer.Screen name={trans.detailSchedule.title} component={DetailSchedule} />
             </Drawer.Navigator>
         );
     };
@@ -48,11 +46,17 @@ const RouteApp: IRouteAppComponent<IRouteAppComponentProps> = ({ startScreen }) 
                         },
                     };
                 },
-            }}
-        >
+            }}>
             <RootApp.Screen
                 name={routes.CLIENT.LOGIN}
                 component={Login}
+                options={{
+                    headerShown: false,
+                }}
+            />
+            <RootApp.Screen
+                name={routes.CLIENT.SIGNUP}
+                component={SignUp}
                 options={{
                     headerShown: false,
                 }}
@@ -64,7 +68,13 @@ const RouteApp: IRouteAppComponent<IRouteAppComponentProps> = ({ startScreen }) 
                     headerShown: false,
                 }}
             />
-
+            <RootApp.Screen
+                name={routes.CLIENT.DETAILSCHEDULE}
+                component={DetailSchedule}
+                options={{
+                    headerShown: false,
+                }}
+            />
             <RootApp.Screen
                 name={routes.CLIENT.SCHEDULE}
                 component={ScheduleDrawer}

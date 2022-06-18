@@ -1,11 +1,14 @@
 import { common, container, flexbox, spacing } from '@assets/styles';
+import Button from '@components/commons/Button';
+import Choice from '@components/commons/Choice';
 import Input from '@components/commons/Input';
 import TextView from '@components/commons/TextView';
 import Validator from '@components/commons/Validator';
 import { ReduxStates } from '@redux/reducers';
+import { enums } from '@utils/constants';
 import { useTrans } from '@utils/hooks';
 import React, { createRef, useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,6 +29,7 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
         oldSettingData: setting,
     });
 
+    const { settingData, oldSettingData } = state;
     const usernameValidatorRef = createRef<IValidatorComponentHandle>();
     const passwordValidatorRef = createRef<IValidatorComponentHandle>();
     const phoneValidatorRef = createRef<IValidatorComponentHandle>();
@@ -42,8 +46,10 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
             },
         }));
     };
+    const handleToggleRadio = (field: string, value: string[]) => {
+        handleChangeSettingData(field, value[0] === enums.SETTING_KEY.ON ? 'vi' : 'en');
+    };
 
-    const { settingData, oldSettingData } = state;
     return (
         <KeyboardAwareScrollView>
             <TextView
@@ -78,9 +84,6 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
             <Input
                 style={[styles.marginTop8, styles.color_gray]}
                 value={settingData.username}
-                onChangeText={(data) => {
-                    handleChangeSettingData('username', data);
-                }}
                 selectTextOnFocus={false}
                 editable={false}
                 maxLength={128}
@@ -166,6 +169,31 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
                 }}
                 maxLength={128}
             />
+
+            <View style={[styles.flexRow, styles.justifyBetween, styles.marginBottom10]}>
+                <TextView
+                    style={[
+                        styles.color_gray,
+                        styles.font_weight_bold,
+                        styles.marginTop20,
+                        styles.font_size_13,
+                        locale === 'jp' ? styles.width_50Percent : styles.width_40Percent,
+                    ]}
+                >
+                    {trans.setting.text_radiobutton_lang}
+                </TextView>
+                <Choice
+                    type="radio"
+                    data={[
+                        { value: '0', label: trans.setting.radiobutton_langvi },
+                        { value: '1', label: trans.setting.radiobutton_langen },
+                    ]}
+                    valueSelected={[settingData.language === 'vi' ? enums.SETTING_KEY.ON : enums.SETTING_KEY.OFF]}
+                    onChange={(value: string[]) => handleToggleRadio('language', value)}
+                />
+            </View>
+
+            <Button text={trans.setting.save} style={[styles.marginTop34]} styleText={[styles.font_size_17]} />
         </KeyboardAwareScrollView>
     );
 };

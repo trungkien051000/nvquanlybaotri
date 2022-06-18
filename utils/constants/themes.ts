@@ -31,6 +31,7 @@ const FONT = {
     SIZE_22: 22,
     SIZE_23: 23,
     SIZE_24: 24,
+    SIZE_27: 27,
     SIZE_30: 30,
     ROBOTO: {
         THIN: 'Roboto-Thin',

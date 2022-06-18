@@ -3,9 +3,8 @@ import Input from './commons/Input';
 import Validator from './commons/Validator';
 import TextView from './commons/TextView';
 
-import Navbar from './layouts/Navbar';
-
 import LoginForm from './forms/Login';
 import SettingForm from './forms/Setting';
+import SignUpForm from './forms/SignUp';
 
-export { Button, Input, Validator, TextView, Navbar, LoginForm, SettingForm };
+export { Button, Input, Validator, TextView, LoginForm, SettingForm, SignUpForm };

@@ -1,9 +1,9 @@
-import { common, flexbox, login, spacing } from '@assets/styles';
+import { common, flexbox, signup, spacing } from '@assets/styles';
 import Button from '@components/commons/Button';
 import Input from '@components/commons/Input';
 import Validator from '@components/commons/Validator';
 import { images, routes } from '@utils/constants';
-import { validateHelper } from '@utils/helpers';
+import { validateHelper, objectHelper } from '@utils/helpers';
 import { useTrans } from '@utils/hooks';
 import React, { createRef, useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
@@ -13,40 +13,55 @@ const styles = StyleSheet.create({
     ...common,
     ...flexbox,
     ...spacing,
-    ...login,
+    ...signup,
 });
-const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
+const SignUpForm: ISignUpFormComponent<ISignUpFormComponentProps> = (props) => {
     const { navigation } = props;
     const trans = useTrans();
 
-    const [state, setState] = useState<ILoginFormComponentState>({
+    const [state, setState] = useState<ISignUpFormComponentState>({
         username: '',
         password: '',
+        passwordconfirm: '',
     });
-    const { username, password } = state;
+    const { username, password, passwordconfirm } = state;
     const usernameValidatorRef = createRef<IValidatorComponentHandle>();
     const passwordValidatorRef = createRef<IValidatorComponentHandle>();
+    const passwordConfirmValidatorRef = createRef<IValidatorComponentHandle>();
 
-    const navigationSchedule = () => {
+    const checkSignUp = () => {
         let isValidate = true;
         if (username === '') {
-            usernameValidatorRef.current?.onValidateMessage(trans.login.err_inputUsername);
+            usernameValidatorRef.current?.onValidateMessage(trans.signup.err_inputUsername);
             isValidate = false;
         } else if (!validateHelper.isUser(username)) {
-            usernameValidatorRef.current?.onValidateMessage(trans.login.err_formatUsername);
+            usernameValidatorRef.current?.onValidateMessage(trans.signup.err_formatUsername);
             isValidate = false;
         } else {
             usernameValidatorRef.current?.onValidateMessage('');
         }
 
         if (!password) {
-            passwordValidatorRef.current?.onValidateMessage(trans.login.err_inputPassword);
+            passwordValidatorRef.current?.onValidateMessage(trans.signup.err_inputPassword);
             isValidate = false;
         } else if (!validateHelper.isPassword(password)) {
-            passwordValidatorRef.current?.onValidateMessage(trans.login.err_formatPassword);
+            passwordValidatorRef.current?.onValidateMessage(trans.signup.err_formatPassword);
             isValidate = false;
         } else {
             passwordValidatorRef.current?.onValidateMessage('');
+        }
+        if (isValidate) {
+            navigation?.navigate(routes.CLIENT.SCHEDULE);
+        }
+
+        if (!passwordconfirm) {
+            passwordConfirmValidatorRef.current?.onValidateMessage(trans.signup.err_inputPassword);
+            isValidate = false;
+        } else if (passwordconfirm !== password) {
+            passwordConfirmValidatorRef.current?.onValidateMessage(trans.signup.err_formatPasswordConfirm);
+            isValidate = false;
+        } else {
+            passwordConfirmValidatorRef.current?.onValidateMessage('');
         }
         if (isValidate) {
             navigation?.navigate(routes.CLIENT.SCHEDULE);
@@ -65,21 +80,21 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
             <KeyboardAwareScrollView>
                 <View style={[styles.dFlex4, styles.marginVertical15]}>
                     <View style={[styles.dFlex1, styles.justifyCenter, styles.alignItemsCenter, styles.margin15]}>
-                        <Text style={[styles.font_size_30, styles.font_weight_bold]}>{trans.login.login}</Text>
+                        <Text style={[styles.font_size_30, styles.font_weight_bold]}>{trans.signup.signup}</Text>
                     </View>
 
                     {/* body */}
                     <View style={[styles.dFlex2, styles.marginTop20]}>
                         <Validator ref={usernameValidatorRef}>
                             <View>
-                                <Text>{trans.login.username}</Text>
+                                <Text>{trans.signup.username}</Text>
                                 <View style={[styles.flexRow, styles.borderBottom_gray]}>
                                     <View style={[styles.justifyCenter, styles.alignItemsCenter]}>
                                         <Image source={images.ICON_USER} />
                                     </View>
                                     <Input
-                                        style={[styles.login_input]}
-                                        placeholder={trans.login.inputname}
+                                        style={[styles.signup_input]}
+                                        placeholder={trans.signup.inputname}
                                         value={username}
                                         onChangeText={(data) => {
                                             handleChangeData('username', data);
@@ -90,14 +105,14 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
                         </Validator>
                         <Validator ref={passwordValidatorRef}>
                             <View style={[styles.marginTop15]}>
-                                <Text>{trans.login.password}</Text>
+                                <Text>{trans.signup.password}</Text>
                                 <View style={[styles.flexRow, styles.borderBottom_gray]}>
                                     <View style={[styles.justifyCenter, styles.alignItemsCenter]}>
                                         <Image source={images.ICON_PASSWORD} />
                                     </View>
                                     <Input
-                                        placeholder={trans.login.inputpassword}
-                                        style={[styles.login_input]}
+                                        placeholder={trans.signup.inputpassword}
+                                        style={[styles.signup_input]}
                                         value={password}
                                         onChangeText={(data) => {
                                             handleChangeData('password', data);
@@ -107,33 +122,34 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
                                 </View>
                             </View>
                         </Validator>
-                        <View style={[styles.marginTop10, styles.alignItemsEnd]}>
-                            <Button
-                                style={[styles.background_none, styles.width_40Percent]}
-                                styleText={[styles.color_red, styles.font_weight_regular]}
-                                text={trans.login.forgotpassword}
-                                onPress={navigationSchedule}
-                            />
-                        </View>
+
+                        <Validator ref={passwordConfirmValidatorRef}>
+                            <View style={[styles.marginTop15]}>
+                                <Text>{trans.signup.passwordconfirm}</Text>
+                                <View style={[styles.flexRow, styles.borderBottom_gray]}>
+                                    <View style={[styles.justifyCenter, styles.alignItemsCenter]}>
+                                        <Image source={images.ICON_PASSWORD} />
+                                    </View>
+                                    <Input
+                                        placeholder={trans.signup.inputpasswordconfirm}
+                                        style={[styles.signup_input]}
+                                        value={passwordconfirm}
+                                        onChangeText={(data) => {
+                                            handleChangeData('passwordconfirm', data);
+                                        }}
+                                        secureTextEntry={true}
+                                    />
+                                </View>
+                            </View>
+                        </Validator>
                     </View>
                     <View>
                         <Button
                             style={[styles.marginTop34]}
                             styleText={[styles.font_size_17]}
-                            text={trans.login.login}
-                            onPress={navigationSchedule}
+                            text={trans.signup.signup}
+                            onPress={checkSignUp}
                         />
-                        <View style={[styles.justifyEnd]}>
-                            <View style={[styles.flexRow, styles.alignSelfCenter]}>
-                                <Text style={[styles.alignSelfCenter]}>{trans.login.text_register} </Text>
-                                <Button
-                                    style={[styles.background_none, styles.justifyStart]}
-                                    styleText={[styles.color_red, styles.font_weight_regular]}
-                                    text={trans.login.signup}
-                                    onPress={() => navigation?.navigate(routes.CLIENT.SIGNUP)}
-                                />
-                            </View>
-                        </View>
                     </View>
                 </View>
             </KeyboardAwareScrollView>
@@ -141,4 +157,4 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
     );
 };
 
-export default LoginForm;
+export default SignUpForm;
