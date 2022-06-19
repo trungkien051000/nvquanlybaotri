@@ -107,14 +107,6 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
                                 </View>
                             </View>
                         </Validator>
-                        <View style={[styles.marginTop10, styles.alignItemsEnd]}>
-                            <Button
-                                style={[styles.background_none, styles.width_40Percent]}
-                                styleText={[styles.color_red, styles.font_weight_regular]}
-                                text={trans.login.forgotpassword}
-                                onPress={navigationSchedule}
-                            />
-                        </View>
                     </View>
                     <View>
                         <Button
@@ -123,17 +115,6 @@ const LoginForm: ILoginFormComponent<ILoginFormComponentProps> = (props) => {
                             text={trans.login.login}
                             onPress={navigationSchedule}
                         />
-                        <View style={[styles.justifyEnd]}>
-                            <View style={[styles.flexRow, styles.alignSelfCenter]}>
-                                <Text style={[styles.alignSelfCenter]}>{trans.login.text_register} </Text>
-                                <Button
-                                    style={[styles.background_none, styles.justifyStart]}
-                                    styleText={[styles.color_red, styles.font_weight_regular]}
-                                    text={trans.login.signup}
-                                    onPress={() => navigation?.navigate(routes.CLIENT.SIGNUP)}
-                                />
-                            </View>
-                        </View>
                     </View>
                 </View>
             </KeyboardAwareScrollView>
