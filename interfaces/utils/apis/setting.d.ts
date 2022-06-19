@@ -1,10 +1,12 @@
 interface ISettingDataAPI {
     name: string;
+    birthday: string;
+    gender: string;
+    email: string;
+    phone: string;
+    address: string;
     username: string;
     password: string;
-    shop: string;
-    address: string;
-    phone: string;
     language: string;
 }
 

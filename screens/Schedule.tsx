@@ -13,16 +13,16 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
     const [state, setState] = useState([
         {
             MaBaoTri: 4,
-            TenNhanVien: 'Bạch Trung Kiên',
+            TenNhanVien: 'Nguyễn Văn An',
             TenKhachHang: 'John Cena',
-            Thietbi: 'Máy Jura Impressa A5',
-            TienDo: '50%',
-            TieuDe: 'Bảo trì máy pha cà phê',
-            MoTa: 'bcd',
+            Thietbi: 'Máy Ascaso Basic 11',
+            TienDo: '90%',
+            TieuDe: 'Bảo trì vòi đánh sữa',
+            MoTa: 'Vòi đánh sữa không hoạt động',
         },
         {
             MaBaoTri: 5,
-            TenNhanVien: 'Lê Văn Luyện',
+            TenNhanVien: 'Nguyễn Văn An',
             TenKhachHang: 'Ngô Minh Hiếu',
             Thietbi: 'Máy Jura Impressa A8',
             TienDo: '50%',
@@ -31,7 +31,7 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
         },
         {
             MaBaoTri: 6,
-            TenNhanVien: 'Võ Thị Sáu',
+            TenNhanVien: 'Nguyễn Văn An',
             TenKhachHang: 'John Cena',
             Thietbi: 'Máy Jura Impressa S9',
             TienDo: '50%',
@@ -40,7 +40,7 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
         },
         {
             MaBaoTri: 7,
-            TenNhanVien: 'Lê Trương Bảo',
+            TenNhanVien: 'Nguyễn Văn An',
             TenKhachHang: 'Ngô Minh Hiếu',
             Thietbi: 'Máy Melitta Caffeo Passione',
             TienDo: '50%',
@@ -48,8 +48,8 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
             MoTa: 'abc',
         },
         {
-            MaBaoTri: 7,
-            TenNhanVien: 'Lê Trương Bảo',
+            MaBaoTri: 8,
+            TenNhanVien: 'Nguyễn Văn An',
             TenKhachHang: 'Ngô Minh Hiếu',
             Thietbi: 'Máy Melitta Caffeo Passione',
             TienDo: '50%',
@@ -57,29 +57,29 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
             MoTa: 'abc',
         },
         {
-            MaBaoTri: 7,
-            TenNhanVien: 'Lê Trương Bảo',
-            TenKhachHang: 'Ngô Minh Hiếu',
+            MaBaoTri: 11,
+            TenNhanVien: 'Nguyễn Văn An',
+            TenKhachHang: 'Tùng Sơn',
             Thietbi: 'Máy Melitta Caffeo Passione',
             TienDo: '50%',
             TieuDe: 'Sửa chữa vòi đánh sữa',
             MoTa: 'abc',
         },
         {
-            MaBaoTri: 7,
-            TenNhanVien: 'Lê Trương Bảo',
-            TenKhachHang: 'Ngô Minh Hiếu',
+            MaBaoTri: 15,
+            TenNhanVien: 'Nguyễn Văn An',
+            TenKhachHang: 'Phan Mạnh Quỳnh',
             Thietbi: 'Máy Melitta Caffeo Passione',
             TienDo: '50%',
             TieuDe: 'Sửa chữa vòi đánh sữa',
             MoTa: 'abc',
         },
         {
-            MaBaoTri: 7,
-            TenNhanVien: 'Lê Trương Bảo',
-            TenKhachHang: 'Ngô Minh Hiếu',
+            MaBaoTri: 17,
+            TenNhanVien: 'Nguyễn Văn An',
+            TenKhachHang: 'Hồ Quang Hiếu',
             Thietbi: 'Máy Melitta Caffeo Passione',
-            TienDo: '50%',
+            TienDo: '30%',
             TieuDe: 'Sửa chữa vòi đánh sữa',
             MoTa: 'abc',
         },
@@ -90,16 +90,20 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
             <FlatList
                 data={state}
                 renderItem={({ item }) => (
-                    <TouchableWithoutFeedback onPress={() => {navigation?.navigate(routes.CLIENT.DETAILSCHEDULE)}}>
+                    <TouchableWithoutFeedback
+                        onPress={() => {
+                            navigation?.navigate(routes.CLIENT.DETAILSCHEDULE);
+                        }}
+                    >
                         <View style={[styles.schedule_container]}>
-                            <View style={[{ flex: 1, flexDirection: 'row' }]}>
-                                <Text style={styles.color_blue}>
-                                    {item.MaBaoTri} - {item.TieuDe}
-                                </Text>
-                                <Text style={styles.color_gray}> giao cho </Text>
-                                <Text style={styles.color_green}>{item.TenNhanVien}</Text>
+                            <Text style={styles.color_blue}>
+                                {item.MaBaoTri} - {item.TieuDe}
+                            </Text>
+                            <View style={[{ flexDirection: 'row' }]}>
+                                <Text>Nhân viên: </Text>
+                                <Text style={[styles.color_green, { flexShrink: 1 }]}>{item.TenNhanVien}</Text>
                             </View>
-                            <Text>{item.MoTa}</Text>
+                            <Text>Mô tả: {item.MoTa}</Text>
                             <View style={[{ flex: 1, flexDirection: 'row' }]}>
                                 <Text>Tên khách hàng: </Text>
                                 <Text style={styles.color_orange}>{item.TenKhachHang}</Text>

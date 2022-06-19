@@ -8,6 +8,8 @@ export default {
         timeTitle: 'Chọn giờ',
         dateTimeConfirm: 'Xác nhận',
         dateTimeCancel: 'Hủy',
+        save: 'Lưu',
+        logout: 'Đăng xuất',
     },
     book: {
         title: 'Đặt lịch bảo trì',
@@ -75,7 +77,9 @@ export default {
         name: 'Họ và tên',
         username: 'Tên đăng nhập',
         password: 'Mật khẩu',
-        shop: 'Doanh nghiệp',
+        birthday: 'Ngày sinh',
+        gender: 'Giới tính',
+        email: 'Email',
         address: 'Địa chỉ',
         phone: 'Số điện thoại',
         lang: 'Ngôn ngữ',
@@ -83,5 +87,8 @@ export default {
         text_radiobutton_lang: 'Ngôn ngữ',
         radiobutton_langvi: 'Tiếng Việt',
         radiobutton_langen: 'Tiếng Anh',
+        text_radiobutton_gender: 'Giới tính',
+        radiobutton_gender1: 'Nam',
+        radiobutton_gender2: 'Nữ',
     },
 };

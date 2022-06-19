@@ -13,6 +13,13 @@ const button = StyleSheet.create({
     button_disabled: {
         opacity: 0.5,
     },
+    button_save: {
+        borderWidth: 2,
+        borderColor: themes.COLOR.WHITE,
+        backgroundColor: themes.COLOR.BLUE,
+        paddingVertical: 4,
+        paddingHorizontal: 11,
+    },
 });
 
 export default button;

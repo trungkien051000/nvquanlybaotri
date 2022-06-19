@@ -20,10 +20,10 @@ const RouteApp: IRouteAppComponent<IRouteAppComponentProps> = ({ startScreen }) 
                     headerShown: true,
                     headerTitleAlign: 'center',
                     headerTintColor: themes.COLOR.BLUE,
-                }}>
+                }}
+            >
                 <Drawer.Screen name={trans.schedule.title} component={Schedule} />
                 <Drawer.Screen name={trans.setting.title} component={Setting} />
-                <Drawer.Screen name={trans.detailSchedule.title} component={DetailSchedule} />
             </Drawer.Navigator>
         );
     };
@@ -46,7 +46,8 @@ const RouteApp: IRouteAppComponent<IRouteAppComponentProps> = ({ startScreen }) 
                         },
                     };
                 },
-            }}>
+            }}
+        >
             <RootApp.Screen
                 name={routes.CLIENT.LOGIN}
                 component={Login}

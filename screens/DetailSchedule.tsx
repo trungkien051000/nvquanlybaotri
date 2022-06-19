@@ -1,21 +1,25 @@
-import { common, container, flexbox, login, spacing } from '@assets/styles';
+import { button, common, container, flexbox, login, spacing } from '@assets/styles';
 import Input from '@components/commons/Input';
 import TextView from '@components/commons/TextView';
 import { ReduxStates } from '@redux/reducers';
 import { images } from '@utils/constants';
 import { useTrans } from '@utils/hooks';
 import React, { useEffect, useState } from 'react';
-import { Image, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import { useSelector } from 'react-redux';
+import { Picker } from '@react-native-picker/picker';
+import Button from '@components/commons/Button';
 const styles = StyleSheet.create({
     ...common,
     ...flexbox,
     ...spacing,
     ...login,
     ...container,
+    ...button,
 });
-const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => {
+const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = (props) => {
+    const { navigation } = props;
     const { detailSchedule, locale } = useSelector((states: ReduxStates) => states);
     const [date1, setDate1] = useState(new Date());
     const [openDate1, setOpenDate1] = useState(false);
@@ -23,48 +27,32 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
     const [openDate2, setOpenDate2] = useState(false);
     const [date3, setDate3] = useState(new Date());
     const [openDate3, setOpenDate3] = useState(false);
+    const [open1, setOpen1] = useState(false);
     const [state, setState] = useState<IDetailScheduleFormComponentState>({
         detailScheduleData: detailSchedule,
         oldDetailScheduleData: detailSchedule,
     });
     const { detailScheduleData, oldDetailScheduleData } = state;
+    const [selectedTienDo, setSelectedTienDo] = useState(detailScheduleData.TienDo);
+    const [selectedTrangThai, setSelectedTrangThai] = useState(detailScheduleData.TrangThai);
     const trans = useTrans();
     let dateSelected1 = '';
     let dateSelected2 = '';
     let dateSelected3 = '';
-    useEffect(() => {
-        dateSelected1 =
-            (date1.getDate() < 10 ? '0' : '') +
-            date1.getDate() +
+    const showToast = () => {
+        ToastAndroid.show('Bạn đã cập nhật thành công !', ToastAndroid.LONG);
+    };
+    const handleDateData = (date: Date) => {
+        return (
+            (date.getDate() < 10 ? '0' : '') +
+            date.getDate() +
             '/' +
-            (date1.getMonth() + 1 < 10 ? '0' : '') +
-            (date1.getMonth() + 1) +
+            (date.getMonth() + 1 < 10 ? '0' : '') +
+            (date.getMonth() + 1) +
             '/' +
-            date1.getFullYear();
-    }, [detailScheduleData.NgayBatDau]);
-    useEffect(() => {
-        dateSelected2 =
-            (date2.getDate() < 10 ? '0' : '') +
-            date2.getDate() +
-            '/' +
-            (date2.getMonth() + 1 < 10 ? '0' : '') +
-            (date2.getMonth() + 1) +
-            '/' +
-            date2.getFullYear();
-            console.log(date2);
-        }, [detailScheduleData.NgayKetThuc]);
-    useEffect(() => {
-        dateSelected3 =
-            (date3.getDate() < 10 ? '0' : '') +
-            date3.getDate() +
-            '/' +
-            (date3.getMonth() + 1 < 10 ? '0' : '') +
-            (date3.getMonth() + 1) +
-            '/' +
-            date3.getFullYear();
-            console.log(date3);
-        }, [detailScheduleData.NgayHoanThanh]);
-
+            date.getFullYear()
+        );
+    };
     const handleChangeData = (field: string, value: string | number | boolean) => {
         setState((prevState) => ({
             ...prevState,
@@ -76,10 +64,23 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
     };
     return (
         <>
-            <View style={[{ width: '100%' }, styles.padding15, styles.background_white]}>
-                <TextView style={[styles.color_blue, styles.text_center, styles.font_weight_regular, styles.font_size_27]}>
+            <View style={[{ width: '100%' }, styles.padding15, styles.background_white, styles.flexRow, styles.justifyBetween]}>
+                <TouchableOpacity onPress={navigation?.goBack}>
+                    <Image source={images.ICON_LEFTARROW} />
+                </TouchableOpacity>
+                <TextView
+                    style={[
+                        styles.color_blue,
+                        styles.alignSelfCenter,
+                        styles.alignItemsCenter,
+                        styles.justifyCenter,
+                        styles.font_weight_regular,
+                        styles.font_size_27,
+                    ]}
+                >
                     {trans.detailSchedule.title}
                 </TextView>
+                <Button text={trans.common.save} style={styles.button_save} onPress={() => showToast()} />
             </View>
 
             <ScrollView style={[styles.dFlex1]} contentContainerStyle={[styles.container]} showsVerticalScrollIndicator={false}>
@@ -89,7 +90,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.MaBaoTri}
                 </TextView>
                 <Input
@@ -105,7 +107,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.TieuDe}
                 </TextView>
                 <Input
@@ -121,7 +124,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.MoTa}
                 </TextView>
                 <Input
@@ -137,7 +141,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.ThietBi}
                 </TextView>
                 <Input
@@ -153,7 +158,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.NhanVien}
                 </TextView>
                 <Input
@@ -169,7 +175,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.KhachHang}
                 </TextView>
                 <Input
@@ -185,7 +192,8 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.DiaChi}
                 </TextView>
                 <Input
@@ -202,25 +210,12 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                     <View style={[styles.flexRow, styles.borderBottom_gray]}>
                         <TouchableOpacity
                             style={[styles.login_input, styles.flexRow, { width: '100%' }]}
-                            onPress={() => setOpenDate1(true)}>
+                            onPress={() => setOpenDate1(true)}
+                        >
                             <Input
                                 style={[styles.login_input]}
                                 placeholder={trans.book.pickdate}
-                                value={
-                                    dateSelected1 ===
-                                    (date1.getDate() < 10 ? '0' : '') +
-                                        date1.getDate() +
-                                        '/' +
-                                        (date1.getMonth() + 1 < 10 ? '0' : '') +
-                                        (date1.getMonth() + 1) +
-                                        '/' +
-                                        date1.getFullYear()
-                                        ? detailScheduleData.NgayBatDau
-                                        : dateSelected1
-                                }
-                                onChangeText={() => {
-                                    handleChangeData('NgayBatDau', dateSelected1);
-                                }}
+                                value={detailScheduleData.NgayBatDau}
                                 selectTextOnFocus={false}
                                 editable={false}
                             />
@@ -237,25 +232,12 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                     <View style={[styles.flexRow, styles.borderBottom_gray]}>
                         <TouchableOpacity
                             style={[styles.login_input, styles.flexRow, { width: '100%' }]}
-                            onPress={() => setOpenDate2(true)}>
+                            onPress={() => setOpenDate2(true)}
+                        >
                             <Input
                                 style={[styles.login_input]}
                                 placeholder={trans.book.pickdate}
-                                value={
-                                    dateSelected2 ===
-                                    (date2.getDate() < 10 ? '0' : '') +
-                                        date2.getDate() +
-                                        '/' +
-                                        (date2.getMonth() + 1 < 10 ? '0' : '') +
-                                        (date2.getMonth() + 1) +
-                                        '/' +
-                                        date2.getFullYear()
-                                        ? detailScheduleData.NgayKetThuc
-                                        : dateSelected2
-                                }
-                                onChangeText={() => {
-                                    handleChangeData('NgayKetThuc', dateSelected2);
-                                }}
+                                value={detailScheduleData.NgayKetThuc}
                                 selectTextOnFocus={false}
                                 editable={false}
                             />
@@ -272,25 +254,12 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                     <View style={[styles.flexRow, styles.borderBottom_gray]}>
                         <TouchableOpacity
                             style={[styles.login_input, styles.flexRow, { width: '100%' }]}
-                            onPress={() => setOpenDate3(true)}>
+                            onPress={() => setOpenDate3(true)}
+                        >
                             <Input
                                 style={[styles.login_input]}
                                 placeholder={trans.book.pickdate}
-                                value={
-                                    dateSelected3 ===
-                                    (date3.getDate() < 10 ? '0' : '') +
-                                        date3.getDate() +
-                                        '/' +
-                                        (date3.getMonth() + 1 < 10 ? '0' : '') +
-                                        (date3.getMonth() + 1) +
-                                        '/' +
-                                        date3.getFullYear()
-                                        ? detailScheduleData.NgayHoanThanh
-                                        : dateSelected3
-                                }
-                                onChangeText={() => {
-                                    handleChangeData('NgayHoanThanh', dateSelected3);
-                                }}
+                                value={detailScheduleData.NgayHoanThanh}
                                 selectTextOnFocus={false}
                                 editable={false}
                             />
@@ -303,43 +272,54 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
 
                 <TextView
                     style={[
+                        styles.marginTop10,
                         styles.color_gray,
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.TienDo}
                 </TextView>
-                <Input
-                    style={[styles.marginTop8, styles.color_gray]}
-                    value={detailScheduleData.TienDo}
-                    selectTextOnFocus={false}
-                    editable={false}
-                    maxLength={128}
-                />
+                <Picker selectedValue={selectedTienDo} onValueChange={(itemValue, itemIndex) => setSelectedTienDo(itemValue)}>
+                    <Picker.Item label="0%" value="0%" />
+                    <Picker.Item label="10%" value="10%" />
+                    <Picker.Item label="20%" value="20%" />
+                    <Picker.Item label="30%" value="30%" />
+                    <Picker.Item label="40%" value="40%" />
+                    <Picker.Item label="50%" value="50%" />
+                    <Picker.Item label="60%" value="60%" />
+                    <Picker.Item label="70%" value="70%" />
+                    <Picker.Item label="80%" value="80%" />
+                    <Picker.Item label="90%" value="90%" />
+                    <Picker.Item label="100%" value="100%" />
+                </Picker>
+
                 <TextView
                     style={[
                         styles.color_gray,
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.TrangThai}
                 </TextView>
-                <Input
-                    style={[styles.marginTop8, styles.color_gray]}
-                    value={detailScheduleData.TrangThai}
-                    selectTextOnFocus={false}
-                    editable={false}
-                    maxLength={128}
-                />
+                <Picker selectedValue={selectedTrangThai} onValueChange={(itemValue, itemIndex) => setSelectedTrangThai(itemValue)}>
+                    <Picker.Item label="Mới" value="Mới" />
+                    <Picker.Item label="Đang tiến hành" value="Đang tiến hành" />
+                    <Picker.Item label="Hoàn thành" value="Hoàn thành" />
+                    <Picker.Item label="Phản hồi" value="Phản hồi" />
+                    <Picker.Item label="Đóng" value="Đóng" />
+                </Picker>
                 <TextView
                     style={[
                         styles.color_gray,
                         styles.font_weight_bold,
                         styles.font_size_13,
                         locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
-                    ]}>
+                    ]}
+                >
                     {trans.detailSchedule.BinhLuan}
                 </TextView>
                 <Input
@@ -363,6 +343,7 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                 onConfirm={(date1) => {
                     setOpenDate1(false);
                     setDate1(date1);
+                    dateSelected1 = handleDateData(date1);
                     handleChangeData('NgayBatDau', dateSelected1);
                 }}
                 onCancel={() => {
@@ -382,6 +363,7 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                 onConfirm={(date2) => {
                     setOpenDate2(false);
                     setDate2(date2);
+                    dateSelected2 = handleDateData(date2);
                     handleChangeData('NgayKetThuc', dateSelected2);
                 }}
                 onCancel={() => {
@@ -401,6 +383,7 @@ const DetailSchedule: IDetailScheduleScreen<IDetailScheduleScreenProps> = () => 
                 onConfirm={(date3) => {
                     setOpenDate3(false);
                     setDate3(date3);
+                    dateSelected3 = handleDateData(date3);
                     handleChangeData('NgayHoanThanh', dateSelected3);
                 }}
                 onCancel={() => {

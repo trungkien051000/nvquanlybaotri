@@ -13,3 +13,4 @@ export const ICON_USER = require('@assets/images/ic_user.png');
 export const ICON_PASSWORD = require('@assets/images/ic_lock.png');
 export const ICON_MENU = require('@assets/images/ic_menu.png');
 export const ICON_CALENDAR = require('@assets/images/ic_calendar.png');
+export const ICON_LEFTARROW = require('@assets/images/ic_leftArrow.png');

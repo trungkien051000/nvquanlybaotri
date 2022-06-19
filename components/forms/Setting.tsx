@@ -8,7 +8,7 @@ import { ReduxStates } from '@redux/reducers';
 import { enums } from '@utils/constants';
 import { useTrans } from '@utils/hooks';
 import React, { createRef, useState } from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { StyleSheet, TextInput, ToastAndroid, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,7 +28,9 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
         settingData: setting,
         oldSettingData: setting,
     });
-
+    const showToast = () => {
+        ToastAndroid.show('Bạn đã cập nhật thành công !', ToastAndroid.LONG);
+    };
     const { settingData, oldSettingData } = state;
     const usernameValidatorRef = createRef<IValidatorComponentHandle>();
     const passwordValidatorRef = createRef<IValidatorComponentHandle>();
@@ -47,7 +49,12 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
         }));
     };
     const handleToggleRadio = (field: string, value: string[]) => {
-        handleChangeSettingData(field, value[0] === enums.SETTING_KEY.ON ? 'vi' : 'en');
+        switch (field) {
+            case 'language':
+                handleChangeSettingData(field, value[0] === enums.SETTING_KEY.ON ? 'vi' : 'en');
+            case 'gender':
+                handleChangeSettingData(field, value[0] === enums.SETTING_KEY.ON ? 'Nam' : 'Nữ');
+        }
     };
 
     return (
@@ -120,17 +127,56 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
                     locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
                 ]}
             >
-                {trans.setting.shop}
+                {trans.setting.birthday}
             </TextView>
             <Input
                 style={[styles.marginTop8]}
-                value={settingData.shop}
+                value={settingData.birthday}
                 onChangeText={(data) => {
-                    handleChangeSettingData('shop', data);
+                    handleChangeSettingData('birthday', data);
                 }}
                 maxLength={128}
             />
-
+            <View style={[styles.flexRow, styles.justifyBetween, styles.marginBottom10]}>
+                <TextView
+                    style={[
+                        styles.color_gray,
+                        styles.font_weight_bold,
+                        styles.marginTop20,
+                        styles.font_size_13,
+                        locale === 'jp' ? styles.width_50Percent : styles.width_40Percent,
+                    ]}
+                >
+                    {trans.setting.text_radiobutton_gender}
+                </TextView>
+                <Choice
+                    type="radio"
+                    data={[
+                        { value: '0', label: trans.setting.radiobutton_gender1 },
+                        { value: '1', label: trans.setting.radiobutton_gender2 },
+                    ]}
+                    valueSelected={[settingData.gender === 'Nam' ? enums.SETTING_KEY.ON : enums.SETTING_KEY.OFF]}
+                    onChange={(value: string[]) => handleToggleRadio('gender', value)}
+                />
+            </View>
+            <TextView
+                style={[
+                    styles.color_gray,
+                    styles.font_weight_bold,
+                    styles.font_size_13,
+                    locale === 'vi' ? styles.width_50Percent : styles.width_40Percent,
+                ]}
+            >
+                {trans.setting.email}
+            </TextView>
+            <Input
+                style={[styles.marginTop8]}
+                value={settingData.email}
+                onChangeText={(data) => {
+                    handleChangeSettingData('email', data);
+                }}
+                maxLength={128}
+            />
             <TextView
                 style={[
                     styles.color_gray,
@@ -193,7 +239,7 @@ const SettingForm: ISettingFormComponent<ISettingFormComponentProps> = (props) =
                 />
             </View>
 
-            <Button text={trans.setting.save} style={[styles.marginTop34]} styleText={[styles.font_size_17]} />
+            <Button text={trans.setting.save} style={[styles.marginTop34]} styleText={[styles.font_size_17]} onPress={() => showToast()} />
         </KeyboardAwareScrollView>
     );
 };

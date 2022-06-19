@@ -27,7 +27,7 @@ const Navigation: INavigationComponent<INavigationComponentProps> = () => {
 
     return (
         <NavigationContainer>
-            <RouteApp startScreen={routes.CLIENT.DETAILSCHEDULE} />
+            <RouteApp startScreen={routes.CLIENT.LOGIN} />
         </NavigationContainer>
     );
 };

@@ -1,4 +1,13 @@
-import { SET_LOCALE, SET_MODAL, SET_NAVBAR_BACK, SET_NAVBAR_MENU, SET_NAVBAR_SUBMIT, SET_SETTING, SET_DETAIL_SCHEDULE, SET_TOAST } from '@redux/actions/type';
+import {
+    SET_LOCALE,
+    SET_MODAL,
+    SET_NAVBAR_BACK,
+    SET_NAVBAR_MENU,
+    SET_NAVBAR_SUBMIT,
+    SET_SETTING,
+    SET_DETAIL_SCHEDULE,
+    SET_TOAST,
+} from '@redux/actions/type';
 
 const localeReducer = (state: string = 'vi', action: ILocaleReduxAction) => {
     switch (action.type) {
@@ -11,12 +20,14 @@ const localeReducer = (state: string = 'vi', action: ILocaleReduxAction) => {
 
 const settingReducer = (
     state: ISettingDataAPI = {
-        name: 'Bạch Trung Kiên',
-        username: 'trungkien',
-        password: 'trungkien2000',
-        shop: 'Police Coffee',
-        address: '80 Lê Lợi, Đà Nẵng',
-        phone: '0702763387',
+        name: 'Nguyễn Văn An',
+        birthday: '07/12/2001',
+        gender: 'Nam',
+        email: 'andeptrai@gmail.com',
+        phone: '0321456789',
+        address: '68 Bạch Đằng, Đà Nẵng',
+        username: 'nguyenvanan',
+        password: 'nguyenvanan',
         language: 'vi',
     },
     action: ISettingReduxAction,
@@ -100,4 +111,13 @@ const navbarMenuReducer = (state: boolean = false, action: INavbarReduxAction) =
     }
 };
 
-export { localeReducer, modalReducer, toastReducer, settingReducer, detailScheduleReducer, navbarSubmitReducer, navbarBackReducer, navbarMenuReducer };
+export {
+    localeReducer,
+    modalReducer,
+    toastReducer,
+    settingReducer,
+    detailScheduleReducer,
+    navbarSubmitReducer,
+    navbarBackReducer,
+    navbarMenuReducer,
+};
