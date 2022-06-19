@@ -47,7 +47,7 @@ const detailScheduleReducer = (
         MoTa: 'Vòi đánh sữa không hoạt động',
         ThietBi: 'Máy Ascaso Basic 11',
         NhanVien: 'Nguyễn Văn An',
-        KhachHang: 'John Cena',
+        KhachHang: 'Bạch Trung Kiên',
         DiaChi: '138 Ông Ích Khiêm, Thanh Bình, Hải Châu, Đà Nẵng',
         NgayBatDau: '19/04/2022',
         NgayKetThuc: '19/04/2022',

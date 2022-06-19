@@ -14,7 +14,7 @@ const Schedule: IScheduleScreen<IScheduleScreenProps> = (props) => {
         {
             MaBaoTri: 4,
             TenNhanVien: 'Nguyễn Văn An',
-            TenKhachHang: 'John Cena',
+            TenKhachHang: 'Bạch Trung Kiên',
             Thietbi: 'Máy Ascaso Basic 11',
             TienDo: '90%',
             TieuDe: 'Bảo trì vòi đánh sữa',
